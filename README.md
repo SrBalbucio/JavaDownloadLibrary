@@ -17,13 +17,14 @@ A java library to download files and process the download speed, progress and ot
 
 ```java
 Downloader downloader = new Downloader();
-downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
+Downlaod downlod = downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
 ```
 > Note: You do not need to run the download in a thread or task, as the download is already asynchronous.
 
 ### Download to Object
 ```java
-Object downloadedObject = downloader.downloadObject("https://.../file.jar");
+Download downloadedObject = downloader.downloadObject("https://.../file.jar");
+Object obj = ownloadedObject.getAsObject();
 ```
 
 ### Add Handler (Check Speed, Progress...):
@@ -32,23 +33,21 @@ Object downloadedObject = downloader.downloadObject("https://.../file.jar");
 Downloader downloader = new Downloader();
 downloader.setDownloadHandler(new CombinedSpeedProgressDownloadHandler(downloader) {
             @Override
-            public void onDownloadSpeedProgress(int downloaded, int maxDownload, int percent, int bytesPerSec) {
+            public void onDownloadSpeedProgress(Download download, int downloaded, int maxDownload, int percent, int bytesPerSec) {
                 System.out.println(SizeUtil.toMBFB(bytesPerSec)+"/s " + percent + "%");
             }
 
             @Override
-            public void finish() {
-                super.onDownloadFinish();
+            public void finish(Download download) {
                 System.out.println("Download finished");
             }
         });
-downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
+Download download = downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
 ```
 
 ### Handler
 
-- DownloadSpeedDownloadHandler (check speed)
-- DownloadProgressDownloadHandler (check progress)
+- DownloadHandler (basic information)
 - CompleteDownloadHandler (check all informations)
 
 # Convert File sizes
