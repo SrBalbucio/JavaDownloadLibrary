@@ -1,4 +1,6 @@
-package me.marnic.jdl;
+package javadl.handler;
+
+import javadl.Downloader;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,7 +10,7 @@ import java.util.TimerTask;
  * Developed by MrMarnic
  * GitHub: https://github.com/MrMarnic
  */
-public abstract class DownloadSpeedDownloadHandler extends DownloadHandler{
+public abstract class DownloadSpeedDownloadHandler extends DownloadHandler {
 
     private Timer timer;
 
@@ -25,22 +27,26 @@ public abstract class DownloadSpeedDownloadHandler extends DownloadHandler{
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                deltaDownload = downloader.downloadedBytes-lastDownloadSize;
+                deltaDownload = downloader.getDownloadedBytes() - lastDownloadSize;
                 onDownloadTickPerSec(deltaDownload);
-                lastDownloadSize = downloader.downloadedBytes;
+                lastDownloadSize = downloader.getDownloadedBytes();
             }
-        },0,1000);
+        }, 0, 1000);
     }
 
-    public abstract void onDownloadTickPerSec(int bytesPerSec);
+    public void onDownloadTickPerSec(int bytesPerSec){};
+    public void finish(){};
+    public void error(Exception e){};
 
     @Override
     public void onDownloadFinish() {
         timer.cancel();
+        finish();
     }
 
     @Override
-    public void onDownloadError() {
+    public void onDownloadError(Exception e) {
         timer.cancel();
+        error(e);
     }
 }

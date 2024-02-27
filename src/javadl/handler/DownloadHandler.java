@@ -1,4 +1,6 @@
-package me.marnic.jdl;
+package javadl.handler;
+
+import javadl.Downloader;
 
 /**
  * Copyright (c) 12.01.2019
@@ -13,7 +15,7 @@ public abstract class DownloadHandler {
         this.downloader = downloader;
     }
 
-    public abstract void onDownloadStart();
-    public abstract void onDownloadFinish();
-    public abstract void onDownloadError();
+    public void onDownloadStart(){};
+    public void onDownloadFinish(){};
+    public void onDownloadError(Exception e){};
 }

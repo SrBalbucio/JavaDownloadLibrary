@@ -1,4 +1,6 @@
-package me.marnic.jdl;
+package javadl.handler;
+
+import javadl.Downloader;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,7 +10,7 @@ import java.util.TimerTask;
  * Developed by MrMarnic
  * GitHub: https://github.com/MrMarnic
  */
-public abstract class DownloadProgressDownloadHandler extends DownloadHandler{
+public abstract class DownloadProgressDownloadHandler extends DownloadHandler {
 
     private Timer timer;
 
@@ -23,20 +25,24 @@ public abstract class DownloadProgressDownloadHandler extends DownloadHandler{
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                onDownloadProgress(downloader.downloadedBytes,downloader.downloadLength,(int)(((double)downloader.downloadedBytes/downloader.downloadLength)*100));
+                onDownloadProgress(downloader.getDownloadedBytes(), downloader.getDownloadLength(), (int) (((double) downloader.getDownloadedBytes() / downloader.getDownloadLength()) * 100));
             }
-        },0,1000);
+        }, 0, 1000);
     }
 
-    public abstract void onDownloadProgress(int downloaded,int maxDownload,int percent);
+    public void onDownloadProgress(int downloaded, int maxDownload, int percent){};
+    public void finish(){};
+    public void error(Exception e){};
 
     @Override
     public void onDownloadFinish() {
         timer.cancel();
+        finish();
     }
 
     @Override
-    public void onDownloadError() {
+    public void onDownloadError(Exception e) {
         timer.cancel();
+        error(e);
     }
 }
