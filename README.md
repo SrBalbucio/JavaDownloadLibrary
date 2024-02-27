@@ -1,7 +1,7 @@
 # JavaDownloadLibrary
-A java library to download files and process the download speed,progress and other things
+A java library to download files and process the download speed, progress and other things
 
-Features:
+### Features:
 
 - Download files easy
 - Check download speed
@@ -10,22 +10,26 @@ Features:
 - Download Text
 - Convert file sizes (MB;GB;KB...)
 
-# Download:
-https://github.com/MrMarnic/JDL/releases/download/1.0/JDL.jar
-
 
 # Getting Started:
 
-# Download File:
+### Download File:
+
+```java
+Downloader downloader = new Downloader();
+downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
+```
+> Note: You do not need to run the download in a thread or task, as the download is already asynchronous.
+
+### Download to Object
+```java
+Object downloadedObject = downloader.downloadObject("https://.../file.jar");
+```
+
+### Add Handler (Check Speed, Progress...):
 
 ```
-Downloader downloader = new Downloader(false);
-downloader.downloadFileToLocation("https://github.com/MrMarnic/JIconExtract/releases/download/1.0/JIconExtract.jar","C:\\Downloads\\download.zip");
-```
-# Add Handler (Check Speed,progress...):
-
-```
-Downloader downloader = new Downloader(false);
+Downloader downloader = new Downloader();
 downloader.setDownloadHandler(new CombinedSpeedProgressDownloadHandler(downloader) {
             @Override
             public void onDownloadSpeedProgress(int downloaded, int maxDownload, int percent, int bytesPerSec) {
@@ -33,46 +37,19 @@ downloader.setDownloadHandler(new CombinedSpeedProgressDownloadHandler(downloade
             }
 
             @Override
-            public void onDownloadFinish() {
+            public void finish() {
                 super.onDownloadFinish();
                 System.out.println("Download finished");
             }
         });
-downloader.downloadFileToLocation("https://github.com/MrMarnic/JIconExtract/releases/download/1.0/JIconExtract.jar","C:\\Downloads\\download.zi");
+downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
 ```
 
-# Handler
+### Handler
 
 - DownloadSpeedDownloadHandler (check speed)
 - DownloadProgressDownloadHandler (check progress)
-- CombinedSpeedProgressDownloadHandler (check speed and progress)
-
-# Create own Handler
-
-```
-public class ExampleDownloadHandler extends DownloadHandler{
-
-    public DownloadProgressDownloadHandler(Downloader downloader) {
-        super(downloader);
-    }
-
-
-    @Override
-    public void onDownloadStart() {
-      
-    }
-
-    @Override
-    public void onDownloadFinish() {
-        timer.cancel();
-    }
-
-    @Override
-    public void onDownloadError() {
-        timer.cancel();
-    }
-}
-```
+- CompleteDownloadHandler (check all informations)
 
 # Convert File sizes
 
