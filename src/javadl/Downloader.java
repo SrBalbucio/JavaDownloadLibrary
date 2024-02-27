@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Path;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Copyright (c) 12.01.2019
@@ -26,36 +28,39 @@ public class Downloader {
 
     @NonNull
     private DownloadHandler downloadHandler = new DownloadHandler(this) {};
+    private Executor executor = Executors.newCachedThreadPool();
 
     int downloadedBytes;
     int downloadLength;
 
     public void downloadFileToLocation(String urlStr, File file){
-        try {
-            URL url = new URL(urlStr);
-            URLConnection con = url.openConnection();
-            downloadLength = con.getContentLength();
+        executor.execute(() -> {
+            try {
+                URL url = new URL(urlStr);
+                URLConnection con = url.openConnection();
+                downloadLength = con.getContentLength();
 
-            InputStream in = con.getInputStream();
-            FileOutputStream out = new FileOutputStream(file);
+                InputStream in = con.getInputStream();
+                FileOutputStream out = new FileOutputStream(file);
 
-            byte[] data = new byte[1024];
-            int length;
+                byte[] data = new byte[1024];
+                int length;
 
-            downloadHandler.onDownloadStart();
+                downloadHandler.onDownloadStart();
 
-            while ((length = in.read(data, 0, 1024)) != -1) {
-                out.write(data, 0, length);
-                downloadedBytes += length;
+                while ((length = in.read(data, 0, 1024)) != -1) {
+                    out.write(data, 0, length);
+                    downloadedBytes += length;
+                }
+
+                in.close();
+                out.close();
+
+                downloadHandler.onDownloadFinish();
+            } catch (Exception e) {
+                downloadHandler.onDownloadError(e);
             }
-
-            in.close();
-            out.close();
-
-            downloadHandler.onDownloadFinish();
-        } catch (Exception e) {
-            downloadHandler.onDownloadError(e);
-        }
+        });
     }
 
     public void downloadFileToLocation(String urlStr, Path path){
@@ -67,7 +72,6 @@ public class Downloader {
     }
 
     public Object downloadObject(String urlStr) {
-
         try {
             URL url = new URL(urlStr);
             URLConnection con = url.openConnection();
