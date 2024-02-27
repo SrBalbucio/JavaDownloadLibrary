@@ -1,6 +1,7 @@
 package javadl.handler;
 
 import javadl.Downloader;
+import javadl.model.Download;
 
 /**
  * Copyright (c) 12.01.2019
@@ -15,7 +16,7 @@ public abstract class DownloadHandler {
         this.downloader = downloader;
     }
 
-    public void onDownloadStart(){};
-    public void onDownloadFinish(){};
-    public void onDownloadError(Exception e){};
+    public void onDownloadStart(Download download){};
+    public void onDownloadFinish(Download download){};
+    public void onDownloadError(Download downlaod, Exception e){};
 }
