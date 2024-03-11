@@ -44,7 +44,6 @@ downloader.setDownloadHandler(new CombinedSpeedProgressDownloadHandler(downloade
         });
 Download download = downloader.downloadFileToLocation("https://.../file.jar", new File("Downloads", "file.jar"));
 ```
-
 ### Handler
 
 - DownloadHandler (basic information)
@@ -54,9 +53,6 @@ Download download = downloader.downloadFileToLocation("https://.../file.jar", ne
 
 Syntax: SizeUtil.toMBFB() = toMegaBytesFromBytes
         SizeUtil.toGBFB() = toGigiaBytesFromBytes
-
-
-
 ```
 double mb = SizeUtil.toMBFB(2000000000);
 double kb = SizeUtil.toKBFB(1000000);

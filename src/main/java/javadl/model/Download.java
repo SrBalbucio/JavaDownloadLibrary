@@ -1,7 +1,10 @@
 package javadl.model;
 
+import javadl.Downloader;
 import javadl.handler.DownloadHandler;
+import javadl.utils.StatusPrinter;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +17,10 @@ import java.nio.file.Files;
 @Data
 public class Download implements Runnable {
 
+    private long startTime = System.currentTimeMillis();
+    @NonNull
+    @Getter
+    private Downloader instance;
     private String id;
     private int downloadedBytes;
     private int downloadLength;
@@ -30,6 +37,14 @@ public class Download implements Runnable {
 
     public Object getAsObject() {
         return downloadObject;
+    }
+
+    /**
+     * Get StatusPrinter that will automatically print your download status to your console!
+     * @return StatusPrinter
+     */
+    public StatusPrinter printer(){
+        return new StatusPrinter(this);
     }
 
     @Override

@@ -13,12 +13,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * Copyright (c) 12.01.2019
- * Developed by MrMarnic
- * GitHub: https://github.com/MrMarnic
+ * Main class where you must create downloads and manage them.
+ *
+ * Create it with the custom DownloadHandler to start receiving Download events.
  */
 @Data
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class Downloader {
 
     @NonNull
@@ -27,7 +28,7 @@ public class Downloader {
     private Executor executor = Executors.newCachedThreadPool();
 
     public Download downloadFileToLocation(String urlStr, File file) {
-        Download download = new Download(DownloadType.FILE, urlStr, file, downloadHandler);
+        Download download = new Download(this, DownloadType.FILE, urlStr, file, downloadHandler);
         executor.execute(download);
         return download;
     }
@@ -41,7 +42,7 @@ public class Downloader {
     }
 
     public Download downloadObject(String urlStr) {
-        Download download = new Download(DownloadType.OBJECT, urlStr, new File("downloads"), downloadHandler);
+        Download download = new Download(this, DownloadType.OBJECT, urlStr, new File("downloads"), downloadHandler);
         executor.execute(download);
         return download;
     }

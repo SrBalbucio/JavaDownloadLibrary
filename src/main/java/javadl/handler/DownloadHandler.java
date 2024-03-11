@@ -2,6 +2,7 @@ package javadl.handler;
 
 import javadl.Downloader;
 import javadl.model.Download;
+import lombok.NonNull;
 
 /**
  * Copyright (c) 12.01.2019
@@ -12,7 +13,7 @@ public abstract class DownloadHandler {
 
     protected Downloader downloader;
 
-    public DownloadHandler(Downloader downloader) {
+    public DownloadHandler(@NonNull Downloader downloader) {
         this.downloader = downloader;
     }
 

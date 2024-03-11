@@ -2,6 +2,7 @@ package javadl.handler;
 
 import javadl.Downloader;
 import javadl.model.Download;
+import lombok.NonNull;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +18,7 @@ public abstract class CompleteDownloadHandler extends DownloadHandler {
     private Timer timer;
     private ConcurrentHashMap<Download, TimerTask> tasks = new ConcurrentHashMap<>();
 
-    public CompleteDownloadHandler(Downloader downloader) {
+    public CompleteDownloadHandler(@NonNull Downloader downloader) {
         super(downloader);
         timer = new Timer();
     }
