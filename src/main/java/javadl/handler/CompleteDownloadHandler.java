@@ -44,19 +44,31 @@ public abstract class CompleteDownloadHandler extends DownloadHandler {
         timer.schedule(task, 0, 100);
     }
 
-    public void onDownloadTickPerSec(Download download, int bytesPerSec) {}
+    public void onDownloadTickPerSec(Download download, int bytesPerSec) {
+    }
 
-    public void onDownloadProgress(Download download, int downloaded, int maxDownload, int percent) {}
+    public void onDownloadProgress(Download download, int downloaded, int maxDownload, int percent) {
+    }
 
-    public void onDownloadSpeedProgress(Download download, int downloaded, int maxDownload, int percent, int bytesPerSec){};
+    public void onDownloadSpeedProgress(Download download, int downloaded, int maxDownload, int percent, int bytesPerSec) {
+    }
 
-    public void finish(Download download){};
-    public void error(Download download, Exception e){};
+    ;
+
+    public void finish(Download download) {
+    }
+
+    ;
+
+    public void error(Download download, Exception e) {
+    }
+
+    ;
 
     @Override
     public synchronized void onDownloadFinish(Download download) {
         tasks.forEach((b, t) -> {
-            if(download.equals(b)){
+            if (download.equals(b)) {
                 t.cancel();
             }
         });
@@ -66,7 +78,7 @@ public abstract class CompleteDownloadHandler extends DownloadHandler {
     @Override
     public void onDownloadError(Download download, Exception e) {
         tasks.forEach((b, t) -> {
-            if(download.equals(b)){
+            if (download.equals(b)) {
                 t.cancel();
             }
         });

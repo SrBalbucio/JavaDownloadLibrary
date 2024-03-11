@@ -1,3 +1,4 @@
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://srbalbucio.github.io/JavaDownloadLibrary/javadoc/)
 # JavaDownloadLibrary
 A java library to download files and process the download speed, progress and other things
 

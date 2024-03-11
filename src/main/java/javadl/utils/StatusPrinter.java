@@ -9,12 +9,12 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-public class StatusPrinter extends CompleteDownloadHandler{
+public class StatusPrinter extends CompleteDownloadHandler {
 
     private Download download;
     private DownloadHandler oldHandler;
 
-    public StatusPrinter(Download download){
+    public StatusPrinter(Download download) {
         super(download.getInstance());
         this.download = download;
         this.oldHandler = download.getDownloadHandler();
@@ -24,11 +24,15 @@ public class StatusPrinter extends CompleteDownloadHandler{
     @Override
     public void onDownloadSpeedProgress(Download download, int downloaded, int maxDownload, int percent, int bytesPerSec) {
         printProgress(download, download.getStartTime(), maxDownload, downloaded, bytesPerSec);
+        if(oldHandler instanceof CompleteDownloadHandler){
+            ((CompleteDownloadHandler) oldHandler).onDownloadSpeedProgress(download, downloaded, maxDownload, percent, bytesPerSec);
+        }
     }
 
     @Override
     public synchronized void onDownloadFinish(Download download) {
         super.onDownloadFinish(download);
+        oldHandler.onDownloadFinish(download);
         download.setDownloadHandler(oldHandler);
     }
 
