@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"javadl"},{"l":"javadl.handler"},{"l":"javadl.model"},{"l":"javadl.utils"}];updateSearchResults();
