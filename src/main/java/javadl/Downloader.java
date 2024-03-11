@@ -3,10 +3,8 @@ package javadl;
 import javadl.handler.DownloadHandler;
 import javadl.model.Download;
 import javadl.model.DownloadType;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.concurrent.Executor;
@@ -19,7 +17,6 @@ import java.util.concurrent.Executors;
  */
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Downloader {
 
     @NonNull

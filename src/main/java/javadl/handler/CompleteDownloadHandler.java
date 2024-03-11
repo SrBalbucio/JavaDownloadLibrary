@@ -41,7 +41,7 @@ public abstract class CompleteDownloadHandler extends DownloadHandler {
             }
         };
         tasks.put(download, task);
-        timer.schedule(task, 0, 1000);
+        timer.schedule(task, 0, 100);
     }
 
     public void onDownloadTickPerSec(Download download, int bytesPerSec) {}

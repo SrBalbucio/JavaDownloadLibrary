@@ -3,10 +3,7 @@ package javadl.model;
 import javadl.Downloader;
 import javadl.handler.DownloadHandler;
 import javadl.utils.StatusPrinter;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.*;
 import java.net.URL;
@@ -21,7 +18,9 @@ public class Download implements Runnable {
     @NonNull
     @Getter
     private Downloader instance;
-    private String id;
+    @Getter
+    @Setter
+    private String id = "Download Anonymous";
     private int downloadedBytes;
     private int downloadLength;
     @NonNull

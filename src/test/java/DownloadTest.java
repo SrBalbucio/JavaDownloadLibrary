@@ -11,8 +11,6 @@ public class DownloadTest {
 
     public static void main(String[] args) throws InterruptedException {
         Downloader downloader = new Downloader();
-        Download download =downloader.downloadFileToLocation("https://github.com/SrBalbucio/PaginatedList/releases/download/v1.0/PaginatedList.jar",
-                new File("paginatedlist.jar"));
         downloader.setDownloadHandler(new CompleteDownloadHandler(downloader) {
 
             @Override
@@ -32,6 +30,12 @@ public class DownloadTest {
                 System.out.println("Finalizado!");
             }
         });
+
+        Download download = downloader.downloadFileToLocation("https://github.com/hyper-mc/HyperSpigot-Server/releases/download/v1.0.4/HyperSpigot.jar",
+                new File("spigot.jar"));
+        download.setId("Spigot");
+        download.printer();
+
         while(!download.isFinished()){
             Thread.sleep(1000);
         }
@@ -46,7 +50,7 @@ public class DownloadTest {
             @Override
             public void onDownloadStart(Download download) {
                 super.onDownloadStart(download);
-                System.out.println("Downlaod Iniciado!");
+                System.out.println("Download Iniciado!");
             }
 
             @Override
@@ -60,8 +64,9 @@ public class DownloadTest {
                 System.out.println("Finalizado!");
             }
         });
-        Download download =downloader.downloadFileToLocation("https://github.com/SrBalbucio/PaginatedList/releases/download/v1.0/PaginatedList.jar",
-                new File("paginatedlist.jar"));
+        Download download = downloader.downloadFileToLocation("https://github.com/hyper-mc/HyperSpigot-Server/releases/download/v1.0.4/HyperSpigot.jar",
+                new File("spigot.jar"));
+        download.printer();
         while(!download.isFinished()){
             Thread.sleep(1000);
         }
