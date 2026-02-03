@@ -3,20 +3,24 @@ package javadl.model;
 import javadl.Downloader;
 import javadl.handler.DownloadHandler;
 import javadl.utils.StatusPrinter;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 
-@RequiredArgsConstructor
 @Data
 public class Download implements Runnable {
 
     private long startTime = System.currentTimeMillis();
     @NonNull
-    @Getter
     private Downloader instance;
     @Getter
     @Setter
@@ -34,15 +38,60 @@ public class Download implements Runnable {
     private Object downloadObject;
     private boolean finished;
 
+    public Download(@NonNull Downloader instance, @NonNull DownloadType type, @NonNull String urlStr, @NonNull File file, @NonNull DownloadHandler downloadHandler) {
+        this.instance = instance;
+        this.type = type;
+        this.urlStr = urlStr;
+        this.file = file;
+        this.downloadHandler = downloadHandler;
+    }
+
+    public Downloader getInstance() {
+        return instance;
+    }
+
+    public int getDownloadedBytes() {
+        return downloadedBytes;
+    }
+
+    public int getDownloadLength() {
+        return downloadLength;
+    }
+
+    public DownloadHandler getDownloadHandler() {
+        return downloadHandler;
+    }
+
+    public void setDownloadHandler(DownloadHandler downloadHandler) {
+        this.downloadHandler = downloadHandler;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
     public Object getAsObject() {
         return downloadObject;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
     /**
      * Get StatusPrinter that will automatically print your download status to your console!
+     *
      * @return StatusPrinter
      */
-    public StatusPrinter printer(){
+    public StatusPrinter printer() {
         return new StatusPrinter(this);
     }
 
@@ -75,9 +124,12 @@ public class Download implements Runnable {
             if (type == DownloadType.OBJECT)
                 downloadObject = ((ObjectInputStream) in).readObject();
 
-            out.flush();
+            if (out != null) {
+                out.flush();
+                out.close();
+            }
             in.close();
-            out.close();
+
 
             downloadHandler.onDownloadFinish(this);
             finished = true;

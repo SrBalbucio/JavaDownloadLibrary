@@ -24,6 +24,10 @@ public class Downloader {
     };
     private Executor executor = Executors.newCachedThreadPool();
 
+    public void setDownloadHandler(DownloadHandler downloadHandler) {
+        this.downloadHandler = downloadHandler;
+    }
+
     /**
      * This method downloads the file asynchronously, executing it in a ThreadPool.
      * @param urlStr Download URL
